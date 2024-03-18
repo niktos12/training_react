@@ -1,1 +1,24 @@
-{}
+{
+  "products": [
+    {
+      "id": "b937",
+      "name": "Niktos",
+      "price": 7
+    },
+    {
+      "id": "2833",
+      "name": "дурачье",
+      "price": 3210
+    },
+    {
+      "id": "e09b",
+      "name": "yapon",
+      "price": 1110
+    },
+    {
+      "id": "19c4",
+      "name": "prof",
+      "price": 110
+    }
+  ]
+}
