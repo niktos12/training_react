@@ -31,7 +31,7 @@ const ProductDetail: React.FC = () => {
       <h2 className="text-lg font-bold">{product.name}</h2>
       <p className="text-gray-700">Price: ${product.price}</p>
       {/* Добавьте другие детали товара, если они есть */}
-      <Link to={`/`}>Back to Products</Link>
+      <Link to={`/training_react`}>Back to Products</Link>
     </div>
   );
 };

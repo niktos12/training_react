@@ -1,5 +1,6 @@
 {
   "name": "my-app",
+  "homepage": "https://github.com/niktos12/training_react",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -22,6 +23,8 @@
     "zustand": "^4.5.2"
   },
   "scripts": {
+    "predeploy" : "npm run build",
+    "deploy" : "gh-pages -d build",
     "server": "json-server --watch db.json --port 3001",
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -45,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^6.1.1"
   }
 }
