@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/niktos12/training_react/static/css/main.8a685450.css",
-    "main.js": "/niktos12/training_react/static/js/main.04fd483d.js",
-    "static/js/453.ed3810f9.chunk.js": "/niktos12/training_react/static/js/453.ed3810f9.chunk.js",
-    "index.html": "/niktos12/training_react/index.html",
-    "main.8a685450.css.map": "/niktos12/training_react/static/css/main.8a685450.css.map",
-    "main.04fd483d.js.map": "/niktos12/training_react/static/js/main.04fd483d.js.map",
-    "453.ed3810f9.chunk.js.map": "/niktos12/training_react/static/js/453.ed3810f9.chunk.js.map"
+    "main.css": "/training_react/static/css/main.8a685450.css",
+    "main.js": "/training_react/static/js/main.dacdf693.js",
+    "static/js/453.ed3810f9.chunk.js": "/training_react/static/js/453.ed3810f9.chunk.js",
+    "index.html": "/training_react/index.html",
+    "main.8a685450.css.map": "/training_react/static/css/main.8a685450.css.map",
+    "main.dacdf693.js.map": "/training_react/static/js/main.dacdf693.js.map",
+    "453.ed3810f9.chunk.js.map": "/training_react/static/js/453.ed3810f9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8a685450.css",
-    "static/js/main.04fd483d.js"
+    "static/js/main.dacdf693.js"
   ]
 }
