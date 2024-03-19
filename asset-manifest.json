@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/niktos12/training_react/static/css/main.8a685450.css",
+    "main.js": "/niktos12/training_react/static/js/main.14dbe471.js",
+    "static/js/453.ed3810f9.chunk.js": "/niktos12/training_react/static/js/453.ed3810f9.chunk.js",
+    "index.html": "/niktos12/training_react/index.html",
+    "main.8a685450.css.map": "/niktos12/training_react/static/css/main.8a685450.css.map",
+    "main.14dbe471.js.map": "/niktos12/training_react/static/js/main.14dbe471.js.map",
+    "453.ed3810f9.chunk.js.map": "/niktos12/training_react/static/js/453.ed3810f9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8a685450.css",
+    "static/js/main.14dbe471.js"
+  ]
+}
