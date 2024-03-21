@@ -7,7 +7,9 @@ interface Product {
   id: number;
   name: string;
   price: number;
-  // Добавьте другие поля, если они есть в вашем товаре
+  image:string;
+  quantity: number;
+  description: string;
 }
 
 const ProductDetail: React.FC = () => {

@@ -9,15 +9,21 @@ interface AddProductModalProps {
 const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
+  const [quantity, setQuantity] = useState(1);
   const { setProducts } = useStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await axios.post('http://localhost:3001/products', { name, price });
+    await axios.post('http://localhost:3001/products', { name, price , description, image, quantity });
     const response = await axios.get('http://localhost:3001/products');
     setProducts(response.data);
     setName('');
     setPrice(0);
+    setDescription('');
+    setImage('');
+    setQuantity(1);
     onClose();
   };
 
@@ -51,6 +57,44 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
             id="price"
             value={price}
             onChange={(e) => setPrice(Number(e.target.value))}
+            className="border p-2 w-full"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="description" className="block text-gray-700 mb-2">
+            Description
+          </label>
+          <textarea
+            id="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="border p-2 w-full"
+            required
+          ></textarea>
+        </div>
+        <div className="mb-4">
+          <label htmlFor="image" className="block text-gray-700 mb-2">
+            Image
+          </label>
+          <input
+            type="text"
+            id="image"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+            className="border p-2 w-full"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="quantity" className="block text-gray-700 mb-2">
+            Quantity
+          </label>
+          <input
+            type="number"
+            id="quantity"
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
             className="border p-2 w-full"
             required
           />

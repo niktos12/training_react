@@ -16,18 +16,20 @@ const ProductList: React.FC = () => {
   }, [products, fetchProducts]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <>
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         onClick={openModal}
       >
         Add Product
       </button>
-      {isOpen && <AddProductModal onClose={closeModal} />}
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
-    </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {isOpen && <AddProductModal onClose={closeModal} />}
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+    </>
   );
 };
 

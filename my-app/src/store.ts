@@ -4,6 +4,9 @@ interface Product {
   id: number;
   name: string;
   price: number;
+  image:string;
+  quantity: number;
+  description: string;
 }
 
 interface StoreState {
@@ -12,7 +15,7 @@ interface StoreState {
   setProducts: (products: Product[]) => void;
   addProduct: (product: Product) => void;
   updateProduct: (product: Product) => void;
-  deleteProduct: (id: number) => void;
+  deleteProduct: (id: number) => Promise<void>;
 }
 interface ModalState {
   isOpen: boolean;
@@ -26,7 +29,7 @@ export const useModalStore = create<ModalState>((set) => ({
   closeModal: () => set({ isOpen: false }),
 }));
 
-const useStore = create<StoreState>((set) => ({
+export const useStore = create<StoreState>((set) => ({
   products: [],
   fetchProducts: async () => {
     const response = await axios.get('http://localhost:3001/products');
@@ -37,9 +40,18 @@ const useStore = create<StoreState>((set) => ({
   updateProduct: (product) => set((state) => ({
     products: state.products.map((p) => (p.id === product.id ? product : p))
   })),
-  deleteProduct: (id) => set((state) => ({
-    products: state.products.filter((p) => p.id !== id)
-  }))
+  deleteProduct: async (id) => {
+    try {
+      // Отправляем запрос на удаление на сервер
+      await axios.delete(`http://localhost:3001/products/${id}`);
+      // Обновляем состояние хранилища, удаляя продукт из списка
+      set((state) => ({
+        products: state.products.filter((product) => product.id !== id)
+      }));
+    } catch (error) {
+      console.error('Ошибка при удалении продукта:', error);
+    }
+  }
 }));
 
 export default useStore;

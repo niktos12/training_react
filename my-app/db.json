@@ -1,24 +1,12 @@
 {
   "products": [
     {
-      "id": "b937",
-      "name": "Niktos",
-      "price": 7
-    },
-    {
-      "id": "2833",
+      "id": "b22f",
       "name": "дурачье",
-      "price": 3210
-    },
-    {
-      "id": "e09b",
-      "name": "yapon",
-      "price": 1110
-    },
-    {
-      "id": "19c4",
-      "name": "prof",
-      "price": 110
+      "price": 11110,
+      "description": "fddfsdfsdfsdfsdf",
+      "image": "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w600/2023/10/free-images.jpg",
+      "quantity": 112121
     }
   ]
 }
