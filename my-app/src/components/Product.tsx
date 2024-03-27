@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { MdDeleteForever } from "react-icons/md";
 import { useStore } from '../store';
+import { useModalStore } from "../store";
 
 interface Product {
   id: number;
@@ -16,10 +17,15 @@ interface Product {
 
 interface ProductCardProps {
   product: Product;
+  onEdit: (productId: number) => void;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { deleteProduct } = useStore();
+  const { openModal, modals } = useModalStore();
+  const handleEdit = () => {
+    openModal('editProduct');
+  }
 
   const handleDeleteProduct = () => {
     deleteProduct(product.id);
@@ -27,6 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const truncatedDescription = product.description
     ? product.description.slice(0, 10) + "..."
     : "No description available";
+  
 
   return (
     <div
@@ -58,6 +65,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 </button>
               )}
             </Menu.Item>
+            <Menu.Items>
+              <Menu.Item>
+                <button
+                  className="w-full px-4 py-2 text-lg flex flex-row items-center gap-2"
+                  onClick={handleEdit}
+                >
+                  Edit
+                </button>
+              </Menu.Item>
+            </Menu.Items>
           </Menu.Items>
         </Transition>
       </Menu>

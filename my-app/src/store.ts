@@ -1,6 +1,6 @@
 import create from 'zustand';
 import axios from 'axios';
-interface Product {
+export interface Product {
   id: number;
   name: string;
   price: number;
@@ -16,18 +16,36 @@ interface StoreState {
   addProduct: (product: Product) => void;
   updateProduct: (product: Product) => void;
   deleteProduct: (id: number) => Promise<void>;
+  editProduct: (id: number, updatedProduct: Product) => Promise<void>;
 }
 interface ModalState {
-  isOpen: boolean;
-  openModal: () => void;
-  closeModal: () => void;
+  modals: {
+    [key: string]: boolean;
+  };
+  openModal: (modalName: string) => void;
+  closeModal: (modalName: string) => void;
+  editProductId: number | null;
+  setEditProductId: (productId: number) => void;
 }
 
 export const useModalStore = create<ModalState>((set) => ({
-  isOpen: false,
-  openModal: () => set({ isOpen: true }),
-  closeModal: () => set({ isOpen: false }),
-}));
+  modals: {},
+  openModal: (modalName) =>
+    set((state) => ({
+      modals: {
+        ...state.modals,
+        [modalName]: true,
+      },
+    })),
+  closeModal: (modalName) =>
+    set((state) => {
+      const newModals = { ...state.modals };
+      delete newModals[modalName];
+      return { modals: newModals };
+    }),
+    editProductId: null,
+    setEditProductId: (productId) => set({ editProductId: productId }),
+}))
 
 export const useStore = create<StoreState>((set) => ({
   products: [],
@@ -50,6 +68,20 @@ export const useStore = create<StoreState>((set) => ({
       }));
     } catch (error) {
       console.error('Ошибка при удалении продукта:', error);
+    }
+  },
+  editProduct: async (id, updatedProduct) => {
+    try {
+      // Отправляем запрос на обновление на сервер
+      await axios.put(`http://localhost:3001/products/${id}`, updatedProduct);
+      // Обновляем состояние хранилища, обновляя продукт в списке
+      set((state) => ({
+        products: state.products.map((product) =>
+          product.id === id ? updatedProduct : product
+        )
+      }));
+    } catch (error) {
+      console.error('Ошибка при обновлении продукта:', error);
     }
   }
 }));
