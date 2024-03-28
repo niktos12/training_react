@@ -1,29 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { productSchema} from "./AddProduct"; // Adjust the import path as needed
 import { Product } from "../store";
 import useStore from "../store"; // Adjust the import path as needed
 import { useModalStore } from "../store";
 
 interface EditProductModalProps {
-  product: Product;
+  productId: number;
   onClose: () => void;
 }
 
-const EditProductModal: React.FC<EditProductModalProps> = ({ product, onClose }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm<Product>({
-    resolver: zodResolver(productSchema),
-    defaultValues: product, // Use the product object to pre-populate the form
-  });
+const EditProductModal: React.FC<EditProductModalProps> = ({
+  productId,
+  onClose,
+}) => {
+  const { products, editProduct } = useStore();
+  const { closeModal, modals } = useModalStore();
 
-  const { editProduct } = useStore();
-  const { modals } = useModalStore();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<Product>();
+
+  useEffect(() => {
+    const productToEdit = products.find((product) => product.id === productId);
+    if (productToEdit) {
+      reset(productToEdit);
+    }
+  }, [productId, products, reset]);
 
   const onSubmit = async (updatedProduct: Product) => {
-    // Call the editProduct function with the updated product data
-    await editProduct(product.id, updatedProduct);
-    onClose();
+    try {
+      await editProduct(productId, updatedProduct);
+      closeModal("editProduct");
+    } catch (error) {
+      console.error("Ошибка при обновлении продукта:", error);
+    }
   };
 
   return (

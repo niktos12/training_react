@@ -20,11 +20,12 @@ interface ProductCardProps {
   onEdit: (productId: number) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit }) => {
   const { deleteProduct } = useStore();
   const { openModal, modals } = useModalStore();
   const handleEdit = () => {
     openModal('editProduct');
+    onEdit(product.id);
   }
 
   const handleDeleteProduct = () => {
@@ -99,3 +100,4 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 };
 
 export default ProductCard;
+
