@@ -5,6 +5,8 @@ import useStore from "../store";
 import { useModalStore } from "../store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { productSchema } from "./AddProduct";
+import { useState } from "react";
+import axios from "axios";
 
 interface EditProductModalProps {
   productId: number;
@@ -15,7 +17,8 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
   productId,
   onClose,
 }) => {
-  const { products, editProduct } = useStore();
+  const { editProduct, fetchProducts } = useStore();
+  const [products, setProducts] = useState<Product[]>([]);
   const { closeModal, modals } = useModalStore();
 
   const {
@@ -26,13 +29,20 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
   } = useForm<Product>({
     resolver: zodResolver(productSchema),
   });
-
   useEffect(() => {
-    const productToEdit = products.find((product) => product.id === productId);
-    if (productToEdit) {
-      reset(productToEdit);
-    }
-  }, [productId, products, reset]);
+    axios
+      .get<Product[]>(`http://localhost:3001/products`)
+      .then((response) => {
+        setProducts(response.data);
+        const productToEdit = response.data.find(
+          (product) => product.id === productId
+        );
+        reset(productToEdit);
+      })
+      .catch((error) => {
+        console.error("Ошибка при загрузке продуктов:", error);
+      });
+  }, [productId, reset]);
 
   const onSubmit = async (updatedProduct: Product) => {
     try {
