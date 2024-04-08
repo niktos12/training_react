@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Product } from "../store";
-import useStore from "../store"; // Adjust the import path as needed
+import useStore from "../store";
 import { useModalStore } from "../store";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { productSchema } from "./AddProduct";
 
 interface EditProductModalProps {
   productId: number;
@@ -21,7 +23,9 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Product>();
+  } = useForm<Product>({
+    resolver: zodResolver(productSchema),
+  });
 
   useEffect(() => {
     const productToEdit = products.find((product) => product.id === productId);
@@ -34,6 +38,8 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
     try {
       await editProduct(productId, updatedProduct);
       closeModal("editProduct");
+      reset();
+      window.location.reload();
     } catch (error) {
       console.error("Ошибка при обновлении продукта:", error);
     }
@@ -46,7 +52,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
           <div className="fixed inset-0 bg-black opacity-50"></div>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-md shadow-lg z-50"
+            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-md shadow-lg z-50 w-1/3"
           >
             <h2 className="text-lg font-semibold mb-4">Edit Product</h2>
             <div className="mb-4">

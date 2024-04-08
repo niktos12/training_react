@@ -5,6 +5,7 @@ import { HiOutlineDotsVertical } from "react-icons/hi";
 import { MdDeleteForever } from "react-icons/md";
 import { useStore } from '../store';
 import { useModalStore } from "../store";
+import { MdEdit } from "react-icons/md";
 
 interface Product {
   id: number;
@@ -72,6 +73,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit }) => {
                   className="w-full px-4 py-2 text-lg flex flex-row items-center gap-2"
                   onClick={handleEdit}
                 >
+                  <MdEdit className="text-blue-500"/>
                   Edit
                 </button>
               </Menu.Item>
