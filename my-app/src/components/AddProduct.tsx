@@ -42,6 +42,15 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
     },
   });
   const { modals, closeModal } = useModalStore();
+  const incrementQuantity = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const decrementQuantity = () => {
+    if (quantity > 1) {
+      setQuantity((prevQuantity) => prevQuantity - 1);
+    }
+  };
 
   const onSubmit = async (data: IProduct) => {
     await axios.post("http://localhost:3001/products", data);
@@ -132,15 +141,31 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
               <label htmlFor="quantity" className="block text-gray-700 mb-2">
                 Quantity
               </label>
-              <input
-                {...register("quantity", { valueAsNumber: true })}
-                type="number"
-                id="quantity"
-                value={quantity}
-                onChange={(e) => setQuantity(Number(e.target.value))}
-                className="border p-2 w-full"
-                required
-              />
+              <div className="flex items-center">
+                <input
+                  {...register("quantity", { valueAsNumber: true })}
+                  type="number"
+                  id="quantity"
+                  value={quantity}
+                  onChange={(e) => setQuantity(Number(e.target.value))}
+                  className="border p-2 w-full"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={decrementQuantity}
+                  className="border p-2 rounded-l-md"
+                >
+                  -
+                </button>
+                <button
+                  type="button"
+                  onClick={incrementQuantity}
+                  className="border p-2 rounded-r-md"
+                >
+                  +
+                </button>
+              </div>
               {errors.quantity && (
                 <p className="text-red-500">{errors.quantity.message}</p>
               )}

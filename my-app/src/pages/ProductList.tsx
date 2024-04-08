@@ -6,6 +6,7 @@ import EditProductModal from "../components/EditProduct";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
 import { Product } from "../store";
+import { EndMessage } from "../components/EndMessage";
 
 const ProductList: React.FC = () => {
   const { openModal, closeModal, modals, editProductId, setEditProductId } =
@@ -67,12 +68,9 @@ const ProductList: React.FC = () => {
         dataLength={nextIndex}
         next={fetchMoreData}
         hasMore={hasMore}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
         loader={<h4>Loading...</h4>}
         endMessage={
-          <p style={{ textAlign: "center" }}>
-            <b>Yay! You have seen it all</b>
-          </p>
+          <EndMessage />
         }
       >
         {modals.addProduct && (
@@ -84,13 +82,16 @@ const ProductList: React.FC = () => {
             productId={editProductId}
           />
         )}
-        {products.slice(0, nextIndex).map((product) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center items-center">
+          {products.slice(0, nextIndex).map((product) => (
           <ProductCard
             key={product.id}
             product={product}
             onEdit={handleEditProduct}
           />
         ))}
+        </div>
+        
       </InfiniteScroll>
     </>
   );

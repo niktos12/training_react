@@ -20,15 +20,34 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
   const { editProduct, fetchProducts } = useStore();
   const [products, setProducts] = useState<Product[]>([]);
   const { closeModal, modals } = useModalStore();
+  
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<Product>({
     resolver: zodResolver(productSchema),
   });
+  const incrementQuantity = () => {
+    setValue("quantity", Number(watch("quantity")) + 1, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  const decrementQuantity = () => {
+    const currentQuantity = Number(watch("quantity"));
+    if (currentQuantity > 1) {
+      setValue("quantity", currentQuantity - 1, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    }
+  };
   useEffect(() => {
     axios
       .get<Product[]>(`http://localhost:3001/products`)
@@ -136,17 +155,31 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
               <label htmlFor="quantity" className="block text-gray-700 mb-2">
                 Quantity
               </label>
-              <input
-                {...register("quantity", { valueAsNumber: true })}
-                type="number"
-                id="quantity"
-                className="border p-2 w-full rounded-md"
-                required
-              />
+              <div className="flex items-center">
+                <input
+                  {...register("quantity", { valueAsNumber: true })}
+                  type="number"
+                  id="quantity"
+                  className="border p-2 w-full"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={decrementQuantity}
+                  className="border p-2 rounded-l-md"
+                >
+                  -
+                </button>
+                <button
+                  type="button"
+                  onClick={incrementQuantity}
+                  className="border p-2 rounded-r-md"
+                >
+                  +
+                </button>
+              </div>
               {errors.quantity && (
-                <p className="text-red-500 text-sm mt-2">
-                  {errors.quantity.message}
-                </p>
+                <p className="text-red-500">{errors.quantity.message}</p>
               )}
             </div>
             <div className="flex justify-end">
