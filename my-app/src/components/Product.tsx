@@ -31,6 +31,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit }) => {
 
   const handleDeleteProduct = () => {
     deleteProduct(product.id);
+    window.location.reload();
   };
   const truncatedDescription = product.description
     ? product.description.slice(0, 10) + "..."

@@ -24,12 +24,13 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
-  const [quantity, setQuantity] = useState(1);
   const { setProducts } = useStore();
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<IProduct>({
     resolver: zodResolver(productSchema),
@@ -42,13 +43,15 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
     },
   });
   const { modals, closeModal } = useModalStore();
+  const quantity = watch("quantity");
+
   const incrementQuantity = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    setValue("quantity", quantity + 1);
   };
 
   const decrementQuantity = () => {
     if (quantity > 1) {
-      setQuantity((prevQuantity) => prevQuantity - 1);
+      setValue("quantity", quantity - 1);
     }
   };
 
@@ -58,6 +61,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
     setProducts(response.data);
     reset();
     onClose();
+    window.location.reload();
   };
 
   return (
@@ -146,8 +150,8 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
                   {...register("quantity", { valueAsNumber: true })}
                   type="number"
                   id="quantity"
-                  value={quantity}
-                  onChange={(e) => setQuantity(Number(e.target.value))}
+                  min={1}
+                  // value={quantity}
                   className="border p-2 w-full"
                   required
                 />
