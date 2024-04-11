@@ -69,9 +69,7 @@ const ProductList: React.FC = () => {
         next={fetchMoreData}
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}
-        endMessage={
-          <EndMessage />
-        }
+        endMessage={<EndMessage />}
       >
         {modals.addProduct && (
           <AddProductModal onClose={() => closeModal("addProduct")} />
@@ -84,14 +82,13 @@ const ProductList: React.FC = () => {
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center items-center">
           {products.slice(0, nextIndex).map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            onEdit={handleEditProduct}
-          />
-        ))}
+            <ProductCard
+              key={product.id}
+              product={product}
+              onEdit={handleEditProduct}
+            />
+          ))}
         </div>
-        
       </InfiniteScroll>
     </>
   );

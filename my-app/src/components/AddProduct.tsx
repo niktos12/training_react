@@ -74,8 +74,8 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
   const closeAll = () => {
     onClose();
     setIsDialogOpen(false);
-  }
-  
+  };
+
   const onSubmit = async (data: IProduct) => {
     await axios.post("http://localhost:3001/products", data);
     const response = await axios.get("http://localhost:3001/products");
@@ -98,11 +98,23 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
             }
           >
             <Dialog.Title className={"text-2xl font-bold text-center"}>
-              <div className="text-center">Вы точно хотите отменить добавление продукта?</div>
+              <div className="text-center">
+                Вы точно хотите отменить добавление продукта?
+              </div>
             </Dialog.Title>
             <Dialog.Panel className={"flex flex-row justify-end gap-4 mt-4"}>
-              <button className="bg-white text-black rounded py-2 px-4" onClick={() => setIsDialogOpen(false)}>Нет</button>
-              <button className=" bg-red-500 text-white rounded py-2 px-4 " onClick={closeAll}>Да</button>
+              <button
+                className="bg-white text-black rounded py-2 px-4"
+                onClick={() => setIsDialogOpen(false)}
+              >
+                Нет
+              </button>
+              <button
+                className=" bg-red-500 text-white rounded py-2 px-4 "
+                onClick={closeAll}
+              >
+                Да
+              </button>
             </Dialog.Panel>
           </Dialog>
           <form

@@ -41,8 +41,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
   const closeAll = () => {
     onClose();
     setIsDialogOpen(false);
-  }
-  
+  };
 
   const {
     register,
@@ -109,11 +108,23 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
             }
           >
             <Dialog.Title className={"text-2xl font-bold text-center"}>
-              <div className="text-center">Вы точно хотите отменить редактирование продукта?</div>
+              <div className="text-center">
+                Вы точно хотите отменить редактирование продукта?
+              </div>
             </Dialog.Title>
             <Dialog.Panel className={"flex flex-row justify-end gap-4 mt-4"}>
-              <button className="bg-white text-black rounded py-2 px-4" onClick={() => setIsDialogOpen(false)}>Нет</button>
-              <button className=" bg-red-500 text-white rounded py-2 px-4 " onClick={closeAll}>Да</button>
+              <button
+                className="bg-white text-black rounded py-2 px-4"
+                onClick={() => setIsDialogOpen(false)}
+              >
+                Нет
+              </button>
+              <button
+                className=" bg-red-500 text-white rounded py-2 px-4 "
+                onClick={closeAll}
+              >
+                Да
+              </button>
             </Dialog.Panel>
           </Dialog>
           <form

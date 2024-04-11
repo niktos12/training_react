@@ -1,5 +1,5 @@
-import create from 'zustand';
-import axios from 'axios';
+import create from "zustand";
+import axios from "axios";
 
 export interface Product {
   id: number;
@@ -31,33 +31,36 @@ interface ModalState {
 
 export const useModalStore = create<ModalState>((set) => ({
   modals: {},
-  openModal: (modalName) => set((state) => ({
-    modals: { ...state.modals, [modalName]: true }
-  })),
-  closeModal: (modalName) => set((state) => {
-    const newModals = { ...state.modals };
-    delete newModals[modalName];
-    return { modals: newModals };
-  }),
+  openModal: (modalName) =>
+    set((state) => ({
+      modals: { ...state.modals, [modalName]: true },
+    })),
+  closeModal: (modalName) =>
+    set((state) => {
+      const newModals = { ...state.modals };
+      delete newModals[modalName];
+      return { modals: newModals };
+    }),
   editProductId: -1,
-  setEditProductId: (productId) => set({ editProductId: productId })
+  setEditProductId: (productId) => set({ editProductId: productId }),
 }));
 
 export const useStore = create<StoreState>((set) => ({
   products: [],
   fetchProducts: async () => {
-    const response = await axios.get('http://localhost:3001/products');
+    const response = await axios.get("http://localhost:3001/products");
     set({ products: response.data });
   },
-  addProduct: (product) => set((state) => ({ products: [...state.products, product] })),
+  addProduct: (product) =>
+    set((state) => ({ products: [...state.products, product] })),
   deleteProduct: async (id) => {
     try {
       await axios.delete(`http://localhost:3001/products/${id}`);
       set((state) => ({
-        products: state.products.filter((product) => product.id !== id)
+        products: state.products.filter((product) => product.id !== id),
       }));
     } catch (error) {
-      console.error('Ошибка при удалении продукта:', error);
+      console.error("Ошибка при удалении продукта:", error);
     }
   },
   setProducts: (products) => set({ products }),
@@ -67,11 +70,11 @@ export const useStore = create<StoreState>((set) => ({
       set((state) => ({
         products: state.products.map((product) =>
           product.id === id ? updatedProduct : product
-        )
+        ),
       }));
     } catch (error) {
-      console.error('Ошибка при обновлении продукта:', error);
+      console.error("Ошибка при обновлении продукта:", error);
     }
-  }
+  },
 }));
 export default useStore;

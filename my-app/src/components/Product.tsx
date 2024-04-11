@@ -3,7 +3,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { MdDeleteForever } from "react-icons/md";
-import { useStore } from '../store';
+import { useStore } from "../store";
 import { useModalStore } from "../store";
 import { MdEdit } from "react-icons/md";
 
@@ -25,18 +25,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit }) => {
   const { deleteProduct } = useStore();
   const { openModal, modals } = useModalStore();
   const handleEdit = () => {
-    openModal('editProduct');
+    openModal("editProduct");
     onEdit(product.id);
-  }
+  };
 
   const handleDeleteProduct = () => {
     deleteProduct(product.id);
     window.location.reload();
   };
-  const truncatedName = product.name.length > 25 ? product.name.slice(0, 25) + "..." : product.name;
+  const truncatedName =
+    product.name.length > 25 ? product.name.slice(0, 25) + "..." : product.name;
 
-  const truncatedDescription = product.description.length > 20 ? product.description.slice(0, 20) + "..." : product.description;
-  
+  const truncatedDescription =
+    product.description.length > 20
+      ? product.description.slice(0, 20) + "..."
+      : product.description;
 
   return (
     <div
@@ -75,7 +78,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit }) => {
                   className="w-full px-4 py-2 text-lg flex flex-row items-center gap-2"
                   onClick={handleEdit}
                 >
-                  <MdEdit className="text-blue-500"/>
+                  <MdEdit className="text-blue-500" />
                   Edit
                 </button>
               </Menu.Item>
@@ -104,4 +107,3 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit }) => {
 };
 
 export default ProductCard;
-
