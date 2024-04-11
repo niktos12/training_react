@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { productSchema } from "./AddProduct";
 import { useState } from "react";
 import axios from "axios";
+import { Dialog } from "@headlessui/react";
 
 interface EditProductModalProps {
   productId: number;
@@ -20,6 +21,27 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
   const { editProduct, fetchProducts } = useStore();
   const [products, setProducts] = useState<Product[]>([]);
   const { closeModal, modals } = useModalStore();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (isDialogOpen) {
+        event.preventDefault();
+        event.returnValue = "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [isDialogOpen]);
+
+  const closeAll = () => {
+    onClose();
+    setIsDialogOpen(false);
+  }
   
 
   const {
@@ -79,6 +101,21 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
       {modals.editProduct && (
         <>
           <div className="fixed inset-0 bg-black opacity-50"></div>
+          <Dialog
+            open={isDialogOpen}
+            onClose={() => setIsDialogOpen(false)}
+            className={
+              "fixed top-1/2 left-1/2 -translate-x-1/2 z-50 -translate-y-1/2 w-[350px] h-[200px] rounded-3xl bg-black text-white p-4"
+            }
+          >
+            <Dialog.Title className={"text-2xl font-bold text-center"}>
+              <div className="text-center">Вы точно хотите отменить редактирование продукта?</div>
+            </Dialog.Title>
+            <Dialog.Panel className={"flex flex-row justify-end gap-4 mt-4"}>
+              <button className="bg-white text-black rounded py-2 px-4" onClick={() => setIsDialogOpen(false)}>Нет</button>
+              <button className=" bg-red-500 text-white rounded py-2 px-4 " onClick={closeAll}>Да</button>
+            </Dialog.Panel>
+          </Dialog>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-md shadow-lg z-50 w-1/3"
@@ -185,7 +222,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
             <div className="flex justify-end">
               <button
                 type="button"
-                onClick={onClose}
+                onClick={() => setIsDialogOpen(true)}
                 className="bg-gray-500 text-white px-4 py-2 mr-2 rounded-md"
               >
                 Cancel

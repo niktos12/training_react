@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import useStore from "../store";
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useModalStore } from "../store";
+import { Dialog } from "@headlessui/react";
 
 interface AddProductModalProps {
   onClose: () => void;
@@ -42,8 +43,24 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
       quantity: 1,
     },
   });
-  const { modals, closeModal } = useModalStore();
+  const { modals } = useModalStore();
   const quantity = watch("quantity");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (isDialogOpen) {
+        event.preventDefault();
+        event.returnValue = "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [isDialogOpen]);
 
   const incrementQuantity = () => {
     setValue("quantity", quantity + 1);
@@ -54,7 +71,11 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
       setValue("quantity", quantity - 1);
     }
   };
-
+  const closeAll = () => {
+    onClose();
+    setIsDialogOpen(false);
+  }
+  
   const onSubmit = async (data: IProduct) => {
     await axios.post("http://localhost:3001/products", data);
     const response = await axios.get("http://localhost:3001/products");
@@ -69,6 +90,21 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
       {modals.addProduct && (
         <>
           <div className="fixed bg-black/50 top-0 right-0 left-0 bottom-0 h-full"></div>
+          <Dialog
+            open={isDialogOpen}
+            onClose={() => setIsDialogOpen(false)}
+            className={
+              "fixed top-1/2 left-1/2 -translate-x-1/2 z-50 -translate-y-1/2 w-[350px] h-[200px] rounded-3xl bg-black text-white p-4"
+            }
+          >
+            <Dialog.Title className={"text-2xl font-bold text-center"}>
+              <div className="text-center">Вы точно хотите отменить добавление продукта?</div>
+            </Dialog.Title>
+            <Dialog.Panel className={"flex flex-row justify-end gap-4 mt-4"}>
+              <button className="bg-white text-black rounded py-2 px-4" onClick={() => setIsDialogOpen(false)}>Нет</button>
+              <button className=" bg-red-500 text-white rounded py-2 px-4 " onClick={closeAll}>Да</button>
+            </Dialog.Panel>
+          </Dialog>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="bg-white rounded w-[500px] p-5 rounded bg-white z-40 left-1/2 -translate-x-1/2 fixed translate-y-1/2"
@@ -151,7 +187,6 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
                   type="number"
                   id="quantity"
                   min={1}
-                  // value={quantity}
                   className="border p-2 w-full"
                   required
                 />
@@ -177,7 +212,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
             <div className="flex justify-end">
               <button
                 type="button"
-                onClick={onClose}
+                onClick={() => setIsDialogOpen(true)}
                 className="bg-gray-500 text-white p-2 mr-2"
               >
                 Cancel
