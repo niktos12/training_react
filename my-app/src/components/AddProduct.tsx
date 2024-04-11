@@ -94,7 +94,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose }) => {
             open={isDialogOpen}
             onClose={() => setIsDialogOpen(false)}
             className={
-              "fixed top-1/2 left-1/2 -translate-x-1/2 z-50 -translate-y-1/2 w-[350px] h-[200px] rounded-3xl bg-black text-white p-4"
+              "fixed top-1/2 left-1/2 -translate-x-1/2 z-50 -translate-y-1/2 w-[350px] h-[200px] rounded-3xl bg-black text-white p-4 flex flex-col justify-between"
             }
           >
             <Dialog.Title className={"text-2xl font-bold text-center"}>
