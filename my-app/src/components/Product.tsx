@@ -33,17 +33,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit }) => {
     deleteProduct(product.id);
     window.location.reload();
   };
-  const truncatedDescription = product.description
-    ? product.description.slice(0, 10) + "..."
-    : "No description available";
+  const truncatedName = product.name.length > 25 ? product.name.slice(0, 25) + "..." : product.name;
+
+  const truncatedDescription = product.description.length > 20 ? product.description.slice(0, 20) + "..." : product.description;
   
 
   return (
     <div
       className="bg-white rounded-3xl p-4 flex flex-col shadow-xl h-[360px] justify-between transition-all
-            ease-in duration-150 items-center"
+            ease-in duration-150 items-center relative"
     >
-      <Menu as="div" className="relative inline-block text-right w-full">
+      <Menu as="div" className="inline-block text-right w-full">
         <Menu.Button className="hover:bg-slate-100 hover:rounded-full duration-300 p-2">
           <HiOutlineDotsVertical className="text-3xl" />
         </Menu.Button>
@@ -55,8 +55,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit }) => {
           leave="transition ease-in duration-75"
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
+          className={"absolute right-2 mt-2"}
         >
-          <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-xl ring-1 ring-black/5 focus:outline-none">
+          <Menu.Items className="w-56 origin-top-right  divide-y divide-gray-100 rounded-md bg-white shadow-xl ring-1 ring-black/5 focus:outline-none">
             <Menu.Item>
               {({ active }) => (
                 <button
@@ -86,7 +87,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit }) => {
         src={product.image}
         className="w-[180px] h-[180px] xm:w-[150px] xm:h-[150px]"
       />
-      <p className="font-bold text-xl sm:text-lg">{product.name}</p>
+      <p className="font-bold text-xl sm:text-lg">{truncatedName}</p>
       <p className="font-bold text-lg sm:text-lg">{product.price}$</p>
       <p>About product: {truncatedDescription}</p>
       <p>Quantity: {product.quantity}</p>
