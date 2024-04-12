@@ -60,7 +60,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit }) => {
           leaveTo="transform opacity-0 scale-95"
           className={"absolute right-2 mt-2"}
         >
-          <Menu.Items className="w-56 origin-top-right  divide-y divide-gray-100 rounded-md bg-white shadow-xl ring-1 ring-black/5 focus:outline-none">
+          <Menu.Items className="w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-xl ring-1 ring-black/5 focus:outline-none">
             <Menu.Item>
               {({ active }) => (
                 <button

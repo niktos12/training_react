@@ -18,7 +18,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
   productId,
   onClose,
 }) => {
-  const { editProduct, fetchProducts } = useStore();
+  const { editProduct } = useStore();
   const [products, setProducts] = useState<Product[]>([]);
   const { closeModal, modals } = useModalStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -99,7 +99,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
     <>
       {modals.editProduct && (
         <>
-          <div className="fixed inset-0 bg-black opacity-50"></div>
+          <div className="fixed bg-black/50 top-0 right-0 left-0 bottom-0 h-full w-full z-40"></div>
           <Dialog
             open={isDialogOpen}
             onClose={() => setIsDialogOpen(false)}
