@@ -2,9 +2,9 @@
   "products": [
     {
       "name": "дурачье",
-      "price": 11,
+      "price": 19,
       "image": "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w600/2023/10/free-images.jpg",
-      "quantity": 129,
+      "quantity": 131,
       "description": "fsdfsdfsdf",
       "id": "54f1"
     },

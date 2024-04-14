@@ -13,20 +13,19 @@ const ProductList: React.FC = () => {
     useModalStore();
   const [products, setProducts] = useState<Product[]>([]);
   const [hasMore, setHasMore] = useState(true);
-  const [nextIndex, setNextIndex] = useState(0); // Изменение начального индекса на 0
-
+  const [nextIndex, setNextIndex] = useState(0); 
   useEffect(() => {
-    fetchProducts(); // Извлечение списка продуктов при монтировании компонента
+    fetchProducts(); 
   }, []);
 
   const fetchProducts = () => {
     axios
-      .get<Product[]>(`http://localhost:3001/products?_start=${nextIndex}&_end=${nextIndex + 12}`) // Получение первых 9 продуктов
+      .get<Product[]>(`http://localhost:3001/products?_start=${nextIndex}&_end=${nextIndex + 12}`) 
       .then((response) => {
         setProducts(response.data);
-        setNextIndex(nextIndex + 12); // Обновление следующего индекса
+        setNextIndex(nextIndex + 12); 
         if (response.data.length < 12) {
-          setHasMore(false); // Если продуктов меньше 9, то больше данных нет
+          setHasMore(false); 
         }
       })
       .catch((error) => {
@@ -36,12 +35,12 @@ const ProductList: React.FC = () => {
 
   const fetchMoreData = () => {
     axios
-      .get<Product[]>(`http://localhost:3001/products?_start=${nextIndex}&_end=${nextIndex + 12}`) // Запрос следующих 9 продуктов
+      .get<Product[]>(`http://localhost:3001/products?_start=${nextIndex}&_end=${nextIndex + 12}`) 
       .then((response) => {
-        setProducts([...products, ...response.data]); // Добавление новых продуктов к существующему списку
-        setNextIndex(nextIndex + 9); // Обновление следующего индекса
+        setProducts([...products, ...response.data]); 
+        setNextIndex(nextIndex + 9); 
         if (response.data.length < 9) {
-          setHasMore(false); // Если продуктов меньше 9, то больше данных нет
+          setHasMore(false);
         }
       })
       .catch((error) => {
